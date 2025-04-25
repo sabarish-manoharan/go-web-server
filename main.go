@@ -29,14 +29,19 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "ParseForm() err : %v", err)
 	}
 
-	fmt.Fprintf(w, "POST request Successful\n")
+	if r.Method == "GET" {
+		http.ServeFile(w, r, "./static/form.html")
+	}
 
-	name := r.FormValue("name")
-	address := r.FormValue("address")
+	if r.Method == "POST" {
+		fmt.Fprintf(w, "POST request Successful\n")
 
-	fmt.Fprintf(w, "Name : %v\n", name)
-	fmt.Fprintf(w, "Address : %v", address)
+		name := r.FormValue("name")
+		address := r.FormValue("address")
 
+		fmt.Fprintf(w, "Name : %v\n", name)
+		fmt.Fprintf(w, "Address : %v", address)
+	}
 }
 
 func main() {
